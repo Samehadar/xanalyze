@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	// "log"
 	"sync"
 
 	python "github.com/sbinet/go-python"

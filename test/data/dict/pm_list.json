@@ -1,0 +1,27 @@
+{
+  "list": [
+    "atom",
+    "bower",
+    "cargo",
+    "carthage",
+    "clojars",
+    "cocoapods",
+    "cpan",
+    "cran",
+    "dub",
+    "elm",
+    "go",
+    "hex",
+    "julia",
+    "maven",
+    "meteor",
+    "npm",
+    "nuget",
+    "packagist",
+    "pub",
+    "pypi",
+    "rubygems",
+    "shards",
+    "swiftpm"
+  ]
+}
