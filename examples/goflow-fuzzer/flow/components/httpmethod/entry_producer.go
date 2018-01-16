@@ -1,8 +1,8 @@
 package httpmethod
 
 import (
-	"github.com/mtojek/go-url-fuzzer/configuration"
-	"github.com/mtojek/go-url-fuzzer/flow/messages"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/configuration"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/messages"
 	"github.com/trustmaster/goflow"
 )
 

@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/mtojek/go-url-fuzzer/configuration"
-	"github.com/mtojek/go-url-fuzzer/flow"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/configuration"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow"
 )
 
 type urlFuzzer struct{}

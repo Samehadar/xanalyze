@@ -3,7 +3,7 @@ package reader
 import (
 	"log"
 
-	"github.com/mtojek/go-url-fuzzer/configuration"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/configuration"
 )
 
 // AbortableFileReader extends a standard file reader with aborting signals.

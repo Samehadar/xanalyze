@@ -3,7 +3,7 @@ package printer
 import (
 	"log"
 
-	"github.com/mtojek/go-url-fuzzer/flow/messages"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/messages"
 	"github.com/trustmaster/goflow"
 )
 

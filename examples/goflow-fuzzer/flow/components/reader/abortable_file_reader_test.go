@@ -11,7 +11,7 @@ import (
 
 	"sync"
 
-	"github.com/mtojek/go-url-fuzzer/configuration"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/configuration"
 	"github.com/stretchr/testify/assert"
 )
 

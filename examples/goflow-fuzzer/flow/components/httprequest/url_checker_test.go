@@ -10,9 +10,9 @@ import (
 
 	"net/http"
 
-	"github.com/mtojek/go-url-fuzzer/configuration"
-	"github.com/mtojek/go-url-fuzzer/flow/messages"
 	"github.com/mtojek/localserver"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/configuration"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/messages"
 	"github.com/stretchr/testify/assert"
 )
 

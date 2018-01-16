@@ -12,8 +12,8 @@ import (
 
 	"net/http"
 
-	"github.com/mtojek/go-url-fuzzer/configuration"
 	"github.com/mtojek/localserver"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/configuration"
 	"github.com/stretchr/testify/assert"
 )
 

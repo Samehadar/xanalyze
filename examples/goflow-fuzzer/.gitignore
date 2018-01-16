@@ -34,3 +34,5 @@ go-url-fuzzer
 
 # Local temporary directory
 tmp/
+
+goflow-fuzzer

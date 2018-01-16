@@ -1,13 +1,13 @@
 package flow
 
 import (
-	"github.com/mtojek/go-url-fuzzer/configuration"
-	"github.com/mtojek/go-url-fuzzer/flow/components/httpmethod"
-	"github.com/mtojek/go-url-fuzzer/flow/components/httprequest"
-	"github.com/mtojek/go-url-fuzzer/flow/components/reader"
-	"github.com/mtojek/go-url-fuzzer/flow/components/result/broadcaster"
-	"github.com/mtojek/go-url-fuzzer/flow/components/result/filewriter"
-	"github.com/mtojek/go-url-fuzzer/flow/components/result/printer"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/configuration"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/components/httpmethod"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/components/httprequest"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/components/reader"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/components/result/broadcaster"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/components/result/filewriter"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/components/result/printer"
 	"github.com/trustmaster/goflow"
 )
 

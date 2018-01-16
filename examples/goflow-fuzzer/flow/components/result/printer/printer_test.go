@@ -3,7 +3,7 @@ package printer
 import (
 	"testing"
 
-	"github.com/mtojek/go-url-fuzzer/flow/messages"
+	"github.com/sniperkit/xanalyze/examples/goflow-fuzzer/flow/messages"
 	"github.com/stretchr/testify/assert"
 )
 
