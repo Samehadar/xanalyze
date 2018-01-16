@@ -2,16 +2,14 @@ package main
 
 import (
 	"flag"
+	"os"
 	_ "strings"
 
 	"github.com/chrislusf/gleam/distributed"
 	"github.com/chrislusf/gleam/flow"
 	"github.com/chrislusf/gleam/gio"
+	_ "github.com/zhangweilun/session/model"
 	"github.com/zhangweilun/session/util"
-	_"github.com/zhangweilun/session/model"
-	"os"
-
-
 )
 
 var (
@@ -38,7 +36,7 @@ func main() {
 
 	dataset := util.Mock(f)
 
-	dataset.Mapper(MapperTokenizer).Fprintf(os.Stdout,"%s\t%d")
+	dataset.Mapper(MapperTokenizer).Fprintf(os.Stdout, "%s\t%d")
 
 	if *isDistributed {
 		println("Running in distributed mode.")
@@ -56,19 +54,16 @@ func main() {
 func tokenize(row []interface{}) error {
 
 	// map[string]string   key是字段名  value是字段的值
-	if visit, ok := row[0].(map[interface{}]interface{}) ;ok{
-		for k,v:=range visit{
-			if w,ok:=k.(string);ok {
-				println("key:",w)
+	if visit, ok := row[0].(map[interface{}]interface{}); ok {
+		for k, v := range visit {
+			if w, ok := k.(string); ok {
+				println("key:", w)
 			}
-			if t,ok:=v.(string);ok {
-				println("v:",t)
+			if t, ok := v.(string); ok {
+				println("v:", t)
 			}
 		}
 	}
-
-
-
 
 	return nil
 }

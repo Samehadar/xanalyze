@@ -27,7 +27,7 @@ func main() {
 
 	f1 := flow.New()
 	f1.TextFile(
-		"/tmp/lsh_input.txt", 3,
+		"lsh_input.txt", 3,
 	).Map(func(line string, ch chan Pair) {
 		fmt.Println("[DEBUG] mapper 1:", line)
 		m := NewMinHashValue(lsh.nMinHashFunc, lsh.minHashParams)

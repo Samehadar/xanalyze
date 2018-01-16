@@ -1,21 +1,14 @@
 package util
 
 import (
-	"github.com/chrislusf/gleam/flow"
-	"time"
-	"math/rand"
 	"fmt"
-	"strconv"
+	"github.com/chrislusf/gleam/flow"
 	"github.com/snluu/uuid"
 	"github.com/zhangweilun/session/model"
+	"math/rand"
+	"strconv"
+	"time"
 )
-
-/**
-* 
-* @author willian
-* @created 2017-04-25 20:25
-* @email 18702515157@163.com  
-**/
 
 func Mock(context *flow.FlowContext) (ret *flow.Dataset) {
 
@@ -23,13 +16,13 @@ func Mock(context *flow.FlowContext) (ret *flow.Dataset) {
 
 	r1 := rand.New(s1)
 
-	userList := make([]*model.UserVisit,1000)
+	userList := make([]*model.UserVisit, 1000)
 
 	actions := []string{
 		"search", "click", "order", "pay",
 	}
 	searchKeywords := []string{
-		"火锅", "蛋糕", "重庆辣子鸡", "重庆小面", "呷哺呷哺", "新辣道鱼火锅", "国贸大厦", "太古商场", "日本料理", "温泉",
+		"Hot pot", "cake", "Chongqing spicy chicken", "Chongqing facet", "suckling feed", "new spicy fish pot", "International Trade Building", "shopping arcades", "Japanese cuisine", "spa",
 	}
 	var count int
 	for i := 0; i < 100; i++ {
@@ -74,7 +67,7 @@ func Mock(context *flow.FlowContext) (ret *flow.Dataset) {
 			}
 			visit := &model.UserVisit{
 				Date:               date,
-				User_id:userId,
+				User_id:            userId,
 				Session_id:         sessionId,
 				Page_id:            pageId,
 				Action_time:        actionTime,
@@ -87,7 +80,7 @@ func Mock(context *flow.FlowContext) (ret *flow.Dataset) {
 				Search_keyword:     searchKeyword,
 			}
 			userList[count] = visit
-			count ++
+			count++
 		}
 	}
 	input := make(chan interface{})
