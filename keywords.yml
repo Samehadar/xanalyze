@@ -1,0 +1,11 @@
+- word: CMakeLists.txt
+  policies:
+    work: "ESPN is not work-related"
+    sports: "ESPN is a sports network"
+
+- word: package.json
+  policies:
+    work: "ESPN is not work-related"
+    sports: "ESPN is a sports network"
+
+

@@ -1,0 +1,18 @@
+package: github.com/zhangweilun/TopAnalyse
+import:
+- package: github.com/chrislusf/gleam
+  branch: master
+  # version: 10e7cf497fd129817a80b6cb00326cc70b1002a3
+  subpackages:
+  - gio 
+  - flow 
+  - distributed
+  - plugins/file
+  - plugins/kafka
+  - plugins/cassandra
+- package: github.com/snluu/uuid
+- package: github.com/golang/protobuf
+  repo: https://github.com/golang/protobuf.git
+  vcs: git
+  subpackages:
+  - ptypes

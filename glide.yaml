@@ -1,0 +1,15 @@
+package: github.com/sniperkit/xanalyze
+ignore:
+- github.com/zhangweilun/TopAnalyse
+import:
+- package: github.com/chrislusf/gleam
+  version: 028cd222c6d18ff644e12d74002e54bbb7f29881
+  subpackages:
+  - distributed
+  - flow
+  - gio
+  - plugins/file
+- package: github.com/sniperkit/xutil
+  subpackages:
+  - plugin/format/json
+- package: github.com/snluu/uuid
