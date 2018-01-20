@@ -67,6 +67,7 @@ func init() {
 		ch <- p
 	}).Filter(func(src SourcePost) bool {
 		return src.PostTypeId == 1
+
 	}).Map(func(src SourcePost) (p Post) {
 		p.PostTypeId = src.PostTypeId
 

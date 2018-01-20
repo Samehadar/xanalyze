@@ -62,6 +62,8 @@ func (fc *FlowContext) TextFile(fname string, shard int) (ret *Dataset) {
 		defer file.Close()
 
 		scanner := bufio.NewScanner(file)
+		buf := make([]byte, 0, 64*1024)
+		scanner.Buffer(buf, 1024*1024)
 		for scanner.Scan() {
 			out <- scanner.Text()
 		}

@@ -1,80 +1,79 @@
 package main
 
 import (
-	"flag"
-	"strings"
 	"bytes"
+	"flag"
 	"fmt"
-	"io/ioutil"
-	"github.com/chrislusf/glow/flow"
-	"math/rand"
-	"time"
-	"net/http"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/chrislusf/glow/flow"
 	"golang.org/x/net/html"
-	"gopkg.in/xmlpath.v1"
-	"log"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
+	"gopkg.in/xmlpath.v1"
+	"io/ioutil"
+	"log"
+	"math/rand"
+	"net/http"
+	"strings"
+	"time"
 
 	rss "github.com/jteeuwen/go-pkg-rss"
 	"github.com/lazyshot/go-hbase"
 
-//	"strconv"
-//	"io"
+	//	"strconv"
+	//	"io"
+	"bufio"
 	"os"
 	"sort"
 	"sync"
-	"bufio"
-//	"runtime"
-
+	//	"runtime"
 )
+
 type WordSentence struct {
 	Word       string
 	LineNumber int
 }
 
 type URLTuple struct {
-	gURL       string
-	s3Name      string
-	msWait 		int
+	gURL   string
+	s3Name string
+	msWait int
 }
 
 type statusTuple struct {
-	pass     int
-	fail 		int
+	pass int
+	fail int
 }
+
 var (
 	fileName = flag.String("file", "/etc/passwd", "name of a text file")
 	f1       = flow.New()
 	f2       = flow.New()
-	f3		 = flow.New()
-	fw	 = flow.New()
+	f3       = flow.New()
+	fw       = flow.New()
 )
+
 type Feed struct {
-	url string
-	status int
-	itemCount int
-	complete bool
+	url           string
+	status        int
+	itemCount     int
+	complete      bool
 	itemsComplete bool
-	index int
+	index         int
 }
 
 type FeedItem struct {
 	feedIndex int
-	complete bool
-	url string
+	complete  bool
+	url       string
 }
-
 
 var conf struct {
-	skillsCSV string
+	skillsCSV  string
 	hbaseZkURL string
-
 }
-
 
 var guidList []string
 var feeds []Feed
@@ -91,8 +90,6 @@ type sortedMap struct {
 	m map[string]int
 	s []string
 }
-
-
 
 func init() {
 	f1.Source(func(out chan WordSentence) {
@@ -149,7 +146,6 @@ func init() {
 
 }
 
-
 func (sm *sortedMap) Len() int {
 	return len(sm.m)
 }
@@ -179,7 +175,7 @@ func grabFeed2(feed *Feed, feedChan chan bool) {
 
 	startGrab := time.Now().Unix()
 	startGrabSeconds := startGrab - startTime
-	fmt.Println("Grabbing feed",feed.url," at" ,startGrabSeconds,"second mark")
+	fmt.Println("Grabbing feed", feed.url, " at", startGrabSeconds, "second mark")
 
 	if feed.status == 0 {
 		fmt.Println("Feed not yet read")
@@ -188,18 +184,18 @@ func grabFeed2(feed *Feed, feedChan chan bool) {
 		startY := feedSpace * (feed.index)
 		fmt.Println(startY)
 		wg.Add(1)
-		rssFeed := rss.New(timeout, true, channelHandler, itemsHandler);
+		rssFeed := rss.New(timeout, true, channelHandler, itemsHandler)
 
 		if err := rssFeed.Fetch(feed.url, nil); err != nil {
 			fmt.Fprintf(os.Stderr, "[e] %s: %s", feed.url, err)
 			return
 		} else {
 			endSec := time.Now().Unix()
-			endX :=( (endSec - startGrab) )
+			endX := (endSec - startGrab)
 			//			if endX == 0 {
 			//				endX = 1
 			//			}
-			fmt.Println("Read feed in",endX,"seconds")
+			fmt.Println("Read feed in", endX, "seconds")
 			wg.Wait()
 
 			//			endGrab := time.Now().Unix()
@@ -222,16 +218,16 @@ func channelHandler(feed *rss.Feed, newchannels []*rss.Channel) {
 
 func itemsHandler(feed *rss.Feed, ch *rss.Channel, newitems []*rss.Item) {
 
-	fmt.Println("Found ",len(newitems)," items in ",feed.Url)
+	fmt.Println("Found ", len(newitems), " items in ", feed.Url)
 
 	for i := range newitems {
 		//		fmt.Printf("STRUCT: %T\n"+ *newitems[i])
 
-//		fmt.Printf("\nITEM: %d\n", i)
+		//		fmt.Printf("\nITEM: %d\n", i)
 		fmt.Println("Item %d, Guid: %s", i, *newitems[i].Guid)
 		guidList = append(guidList, *newitems[i].Guid)
 		fmt.Println("Title      : " + newitems[i].Title)
-		fmt.Println("Author     : "+ newitems[i].Author.Name )
+		fmt.Println("Author     : " + newitems[i].Author.Name)
 		mutex.Lock()
 
 		for j := 0; j < len(newitems[i].Categories); j++ {
@@ -244,21 +240,19 @@ func itemsHandler(feed *rss.Feed, ch *rss.Channel, newitems []*rss.Item) {
 		}
 
 		mutex.Unlock()
-//		fmt.Println("Description: "+ newitems[i].Description )
-//		fmt.Println("Pub Date   : "+ newitems[i].PubDate)
-//		fmt.Println("Updated    : "+ newitems[i].Updated )
+		//		fmt.Println("Description: "+ newitems[i].Description )
+		//		fmt.Println("Pub Date   : "+ newitems[i].PubDate)
+		//		fmt.Println("Updated    : "+ newitems[i].Updated )
 		//		fmt.Printf("%+v\n", newitems[0].Extensions)
 		//		fmt.Printf("%+v\n", newitems[0].Extensions["http://www.w3.org/2005/Atom"])
 		//		fmt.Printf("%+v\n", newitems[0].Extensions["http://stackoverflow.com/jobs/"])
 		//		fmt.Printf("%+v\n", newitems[0].Extensions["http://stackoverflow.com/jobs/"]["location"])
 		//		fmt.Printf("%+v\n", newitems[0].Extensions["http://stackoverflow.com/jobs/"]["location"][0].Value)
-//		fmt.Println("Location    : "+ newitems[0].Extensions["http://stackoverflow.com/jobs/"]["location"][0].Value)
+		//		fmt.Println("Location    : "+ newitems[0].Extensions["http://stackoverflow.com/jobs/"]["location"][0].Value)
 
 	}
 	wg.Done()
 }
-
-
 
 func getRSS2() {
 	startTime = time.Now().Unix()
@@ -267,10 +261,9 @@ func getRSS2() {
 	for i := range feeds {
 		feeds[i].status = 0
 		go grabFeed2(&feeds[i], feedChan)
-		<- feedChan
+		<-feedChan
 	}
 }
-
 
 func loadSkillMapFile(m map[string]int) {
 	// open input file
@@ -312,14 +305,13 @@ func saveSkillMapFile(skMap map[string]int) {
 
 	for val, key := range keysSorted {
 		fmt.Printf("%d - %s => %d\n", val, key, skillMap[key])
-		sfile.WriteString(fmt.Sprintf("%s,%v\n",key,skillMap[key]))
+		sfile.WriteString(fmt.Sprintf("%s,%v\n", key, skillMap[key]))
 	}
 }
 
 func saveSkillsMapHBase(skMap map[string]int) {
 	log.Println("\n\n*** SETUP CLIENT ***\n")
 	client := hbase.NewClient([]string{conf.hbaseZkURL}, "/hbase-unsecure")
-
 
 	keysSorted := sortedKeys(skMap)
 
@@ -328,7 +320,7 @@ func saveSkillsMapHBase(skMap map[string]int) {
 		//           key
 		put := hbase.CreateNewPut([]byte(key))
 		//                 family, column ,    value
-		put.AddStringValue("v1", "count", fmt.Sprintf("%v",skillMap[key]))
+		put.AddStringValue("v1", "count", fmt.Sprintf("%v", skillMap[key]))
 		//		log.Printf("put-v = %T, %+v\n", put, put)
 		//                      table
 		res, err := client.Put("skills", put)
@@ -336,7 +328,6 @@ func saveSkillsMapHBase(skMap map[string]int) {
 	}
 	// in hbase shell	scan 'skills', {VERSIONS=>10}
 }
-
 
 func getHostConfig() {
 	name, err := os.Hostname()
@@ -356,10 +347,9 @@ func getHostConfig() {
 	}
 }
 
-
 func main() {
 	flag.Parse()
-//	panic("Just Quit")
+	//	panic("Just Quit")
 	getHostConfig()
 	//	runtime.GOMAXPROCS(2)
 	timeout = 1000
@@ -367,39 +357,41 @@ func main() {
 	//http://careers.stackoverflow.com/jobs/feed?searchTerm=big+data&location=san+francisco&range=100&distanceUnits=Miles
 	//	feeds = append(feeds, Feed{index: 0, url: "http://careers.stackoverflow.com/jobs/feed?searchTerm=big+data&location=san+francisco&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false })
 
-	feeds = append(feeds, Feed{index: 0, url: "http://careers.stackoverflow.com/jobs/feed?location=san+francisco%2c+ca&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false })
-	feeds = append(feeds, Feed{index: 1, url: "http://careers.stackoverflow.com/jobs/feed?location=new+york+city%2c+ny&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false })
-	feeds = append(feeds, Feed{index: 2, url: "http://careers.stackoverflow.com/jobs/feed?location=los+angeles%2c+ca&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false })
-	feeds = append(feeds, Feed{index: 3, url: "http://careers.stackoverflow.com/jobs/feed?location=boston%2c+ma&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false })
-	feeds = append(feeds, Feed{index: 4, url: "http://careers.stackoverflow.com/jobs/feed?location=seattle%2cwa&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false })
-	feeds = append(feeds, Feed{index: 5, url: "http://careers.stackoverflow.com/jobs/feed?location=austin%2ctx&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false })
-	feeds = append(feeds, Feed{index: 6, url: "http://careers.stackoverflow.com/jobs/feed?location=chicago%2cil&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false })
+	feeds = append(feeds, Feed{index: 0, url: "http://careers.stackoverflow.com/jobs/feed?location=san+francisco%2c+ca&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false})
+	feeds = append(feeds, Feed{index: 1, url: "http://careers.stackoverflow.com/jobs/feed?location=new+york+city%2c+ny&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false})
+	feeds = append(feeds, Feed{index: 2, url: "http://careers.stackoverflow.com/jobs/feed?location=los+angeles%2c+ca&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false})
+	feeds = append(feeds, Feed{index: 3, url: "http://careers.stackoverflow.com/jobs/feed?location=boston%2c+ma&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false})
+	feeds = append(feeds, Feed{index: 4, url: "http://careers.stackoverflow.com/jobs/feed?location=seattle%2cwa&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false})
+	feeds = append(feeds, Feed{index: 5, url: "http://careers.stackoverflow.com/jobs/feed?location=austin%2ctx&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false})
+	feeds = append(feeds, Feed{index: 6, url: "http://careers.stackoverflow.com/jobs/feed?location=chicago%2cil&range=100&distanceUnits=Miles", status: 0, itemCount: 0, complete: false, itemsComplete: false})
 	mutex = &sync.Mutex{}
 	skillMap = make(map[string]int, 200)
 	loadSkillMapFile(skillMap)
 	fmt.Println("GetRSS")
 	getRSS2()
 	saveSkillMapFile(skillMap)
-	if(conf.hbaseZkURL != "") { saveSkillsMapHBase(skillMap)}
+	if conf.hbaseZkURL != "" {
+		saveSkillsMapHBase(skillMap)
+	}
 
-	for i:= 0; i < len(guidList); i++ {
+	for i := 0; i < len(guidList); i++ {
 		fmt.Println(guidList[i])
 	}
 
-//	guidList := make([]string, 4)
-//	guidList[0] = "http://careers.stackoverflow.com/jobs/103310/senior-software-engineer-american-society-of-clinical"
-//	guidList[1] = "http://careers.stackoverflow.com/jobs/94152/senior-software-engineer-platform-flixster"
-//	guidList[2] = "http://careers.stackoverflow.com/jobs/103328/senior-full-stack-engineer-data-science-adroll"
-//	guidList[3] = "http://careers.stackoverflow.com/jobs/104086/enterprise-architect-new-relic"
-//	fmt.Printf("%v\n", s)
+	//	guidList := make([]string, 4)
+	//	guidList[0] = "http://careers.stackoverflow.com/jobs/103310/senior-software-engineer-american-society-of-clinical"
+	//	guidList[1] = "http://careers.stackoverflow.com/jobs/94152/senior-software-engineer-platform-flixster"
+	//	guidList[2] = "http://careers.stackoverflow.com/jobs/103328/senior-full-stack-engineer-data-science-adroll"
+	//	guidList[3] = "http://careers.stackoverflow.com/jobs/104086/enterprise-architect-new-relic"
+	//	fmt.Printf("%v\n", s)
 
 	// map random times & make s3names
 	fw.Slice(guidList).Map(func(sURL string) URLTuple {
 		fmt.Printf("Map1: %v\n", sURL)
-		fName := "jobs_sof/" + strings.Replace(strings.TrimPrefix(sURL, "http://careers.stackoverflow.com/jobs/"), "/","_", -1)
+		fName := "jobs_sof/" + strings.Replace(strings.TrimPrefix(sURL, "http://careers.stackoverflow.com/jobs/"), "/", "_", -1)
 		ms := rand.Intn(3000)
 		return URLTuple{sURL, fName, ms}
-//	Filter already-acquired URLs
+		//	Filter already-acquired URLs
 	}).Filter(func(uTuple URLTuple) bool {
 		// is file already stored in S3?
 		//fmt.Printf("Filter:%s, %v\n", uTuple.s3Name, uTuple)
@@ -407,14 +399,14 @@ func main() {
 		var params *s3.HeadObjectInput
 
 		params = &s3.HeadObjectInput{
-			Bucket: aws.String("opps"), // Required
-			Key: aws.String(uTuple.s3Name), // Required
+			Bucket: aws.String("opps"),        // Required
+			Key:    aws.String(uTuple.s3Name), // Required
 		}
-		hobj , _ := svcS3.HeadObject(params)
+		hobj, _ := svcS3.HeadObject(params)
 
 		fmt.Printf("Filter: %s => %v\n", uTuple.s3Name, hobj.ContentLength == nil)
 		return hobj.ContentLength == nil
-	//	get the URLs
+		//	get the URLs
 	}).Map(func(uTuple URLTuple) statusTuple {
 		fmt.Printf("Map3: %v\n", uTuple)
 		// random sleep
@@ -427,21 +419,21 @@ func main() {
 		}
 		defer resp.Body.Close()
 
-//		fmt.Println("Body:", resp.Body)
-//		fmt.Println("Proto:", resp.Proto)
-//		fmt.Printf("response Status = <%s> / Length = %d\n", resp.Status, resp.ContentLength)
-//		fmt.Println("response Headers:", resp.Header)
-//		fmt.Printf("response %+v:\n", resp)
-//		fmt.Println("response Body:", string(body))
+		//		fmt.Println("Body:", resp.Body)
+		//		fmt.Println("Proto:", resp.Proto)
+		//		fmt.Printf("response Status = <%s> / Length = %d\n", resp.Status, resp.ContentLength)
+		//		fmt.Println("response Headers:", resp.Header)
+		//		fmt.Printf("response %+v:\n", resp)
+		//		fmt.Println("response Body:", string(body))
 		failed := 0
 		passed := 0
-		if(resp.StatusCode == 200) {
+		if resp.StatusCode == 200 {
 			passed = 1
 		} else {
 			failed = 1
 		}
 		// store in S3
-		if(passed == 1) {
+		if passed == 1 {
 			body, _ := ioutil.ReadAll(resp.Body)
 			reader := strings.NewReader(string(body))
 			root, err := html.Parse(reader)
@@ -454,7 +446,6 @@ func main() {
 			html.Render(&b, root)
 			fixedHtml := b.String()
 
-
 			isOk := func(r rune) bool {
 				return r < 32 || r >= 127
 			}
@@ -465,7 +456,7 @@ func main() {
 			// or writing data anywhere.
 			fixedUnicodeNFKD, _, _ := transform.String(t2, fixedHtml)
 
-//			fmt.Println("\n\n\n"+fixedUnicodeNFKD)
+			//			fmt.Println("\n\n\n"+fixedUnicodeNFKD)
 			reader = strings.NewReader(fixedUnicodeNFKD)
 
 			xmlroot, xmlerr := xmlpath.ParseHTML(reader)
@@ -509,7 +500,6 @@ func main() {
 				//		fmt.Printf("Sk-Desc: %s\n", ele)
 			}
 
-
 			var desc []string
 			list = xmlpath.MustCompile(`//*[@id="jobdetailpage"]/div[2]/div[1]/div[2]/p`)
 			iter = list.Iter(xmlroot)
@@ -526,7 +516,6 @@ func main() {
 				desc = append(desc, ele)
 				//		fmt.Printf("it-Desc2: %s\n", ele)
 			}
-
 
 			var sSNR []string
 			list = xmlpath.MustCompile(`//*[@id="jobdetailpage"]/div[2]/div[1]/div[3]/p`)
@@ -580,9 +569,7 @@ func main() {
 				cnt++
 			}
 
-
-
-			var sep string;
+			var sep string
 
 			baseAbout := "ABOUT: "
 			sep = ""
@@ -590,7 +577,6 @@ func main() {
 				baseAbout += sep + about[i]
 				sep = "\n"
 			}
-
 
 			baseSkills := "BASESKILLS: "
 			sep = ""
@@ -616,14 +602,14 @@ func main() {
 
 			var storage string
 			storage =
-				uTuple.gURL +"\n\n" +
-				"DATE: " + time.Now().Format(time.RFC850) + "\n\n" +
-				"TITLE: " + html.UnescapeString(title) + "\n\n" +
-				"LOCATION: " + html.UnescapeString(location) + "\n\n" +
-				html.UnescapeString(baseSkills) + "\n\n" +
-				html.UnescapeString(baseAbout) + "\n\n" +
-				html.UnescapeString(baseDesc) + "\n\n" + // no second slash
-				html.UnescapeString(baseReqs) +"\n"
+				uTuple.gURL + "\n\n" +
+					"DATE: " + time.Now().Format(time.RFC850) + "\n\n" +
+					"TITLE: " + html.UnescapeString(title) + "\n\n" +
+					"LOCATION: " + html.UnescapeString(location) + "\n\n" +
+					html.UnescapeString(baseSkills) + "\n\n" +
+					html.UnescapeString(baseAbout) + "\n\n" +
+					html.UnescapeString(baseDesc) + "\n\n" + // no second slash
+					html.UnescapeString(baseReqs) + "\n"
 
 			fmt.Printf("Storing (len = %d):\n***\n%s\n***\n", len(storage), storage)
 
@@ -641,15 +627,14 @@ func main() {
 				passed = 0
 			}
 		}
-//		return statusTuple{passed, failed}
+		//		return statusTuple{passed, failed}
 		return statusTuple{passed, failed}
-// count URLs
+		// count URLs
 	}).Reduce(func(x statusTuple, y statusTuple) statusTuple {
-		fmt.Printf("Red1: x= %v, y = %v\n",x,y )
+		fmt.Printf("Red1: x= %v, y = %v\n", x, y)
 		return statusTuple{x.pass + y.pass, x.fail + y.fail}
 	}).Map(func(x statusTuple) {
 		fmt.Printf("Map4 Result: passed = %d, failed = %d\n", x.pass, x.fail)
 	}).Run()
 
 }
-

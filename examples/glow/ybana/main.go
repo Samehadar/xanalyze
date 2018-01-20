@@ -1,31 +1,79 @@
 package main
 
 import (
+	"bytes"
+	crand "crypto/rand"
 	"encoding/json"
+	"flag"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"math/rand"
 	"os"
+	"os/exec"
 	"strings"
 	"sync"
 	"time"
 
+	kf "github.com/miraclesu/keywords-filter"
+	"github.com/miraclesu/keywords-filter/loader/http.load"
+	// kfw "github.com/miraclesu/keywords-filter/keyword"
+
+	// "github.com/ymhhh/target-filter"
+	// "github.com/alexandres/lexvec"
+	// "https://github.com/l-dandelion/gospider/blob/master/app/aid/proxy/proxy.go"
+	// "github.com/emirpasic/gods"
+	// "github.com/Workiva/go-datastructures"
+
+	// to check
+	// "github.com/bobotu/opt-art"
+	// "github.com/advancedlogic/go-freeling"
+	// "github.com/jbowles/wordlab"
+	// "github.com/bobonovski/gotm"
+	// "github.com/mrap/wordpatterns"
+
+	// "github.com/mvryan/fasttag"
+	// "github.com/unixpickle/markovchain"
+	// "github.com/chewxy/lingo"
+	// "github.com/nyxtom/tokens"
+	// "github.com/james-bowman/nlp"
+	// "github.com/jaytaylor/html2text"
+	// "github.com/chewxy/skiprope"
+	// "github.com/nyxtom/tokens"
+
 	//"github.com/sniperkit/xanalyze/model"
 	"github.com/sniperkit/xfilter/backend/goac"
 	"github.com/sniperkit/xgraph/plugin/cayley/fact"
+
+	"github.com/mschoch/blackfriday-text"
+	"gopkg.in/russross/blackfriday.v1"
+	//	"github.com/russross/blackfriday"
+	// "github.com/gholt/blackfridaytext"
+	// "github.com/microcosm-cc/bluemonday"
+	"github.com/JesusIslam/tldr"
+	"mvdan.cc/xurls"
+	// "github.com/urandom/text-summary/summarize"
+	// "gopkg.in/russross/blackfriday.v2"
+	// "github.com/ggaaooppeenngg/md2txt"
+
 	// jsoniter "github.com/sniperkit/xutil/plugin/format/json"
 	// simplejson "github.com/bitly/go-simplejson"
-	// "github.com/k0kubun/pp"
 
-	"github.com/chrislusf/glow/flow"
+	// _ "github.com/chrislusf/glow/driver"
+	// "github.com/chrislusf/glow/flow"
+	_ "github.com/sniperkit/xanalyze/plugin/glow/driver"
+	"github.com/sniperkit/xanalyze/plugin/glow/flow"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/k0kubun/pp"
 
 	"github.com/jamiealquiza/tachymeter"
 	"github.com/manveru/faker"
 	"github.com/nats-io/go-nats"
 	"github.com/seiflotfy/cuckoofilter"
 	"github.com/willf/bloom"
+	// "github.com/vedhavyas/cuckoo-filter"
 )
 
 var (
@@ -39,6 +87,9 @@ var (
 	ac      *goac.AhoCorasick            = goac.NewAhoCorasick()
 	dicts   map[string]*goac.AhoCorasick = make(map[string]*goac.AhoCorasick, 0)
 	t                                    = tachymeter.New(&tachymeter.Config{Size: 600000})
+	// f                                      = filter.New()
+	Threshold = flag.Int("t", 50, "Threshold of filter")
+	fx        *kf.Filter
 )
 
 // {"name":"admin-on-rest","owner":"marmelab","path":"src/mui/detail/Tab.js","remote_id":"63226588"}
@@ -47,6 +98,7 @@ type File struct {
 	owner     string `json:"owner"`
 	path      string `json:"path"`
 	remote_id int    `json:"remote_id"`
+	readme    string `json:"readme"`
 }
 
 type Manifest struct {
@@ -55,9 +107,10 @@ type Manifest struct {
 }
 
 type ScanResult struct {
+	Input string
 	match string
-	tags  string
-	group string
+	Tags  string
+	Group string
 	start int
 	end   int
 }
@@ -117,8 +170,6 @@ func ReadFile(filename string) ([]byte, error) {
 }
 */
 
-// type Entries []*File
-
 func main() {
 	defer funcTrack(time.Now())
 
@@ -138,6 +189,36 @@ func main() {
 	defer db.Close()
 
 	db.AutoMigrate(&EventR{})
+
+	flag.Parse()
+
+	// var err error
+	fx, err = kf.New(*Threshold, &load.Loader{})
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+
+	/*
+		var words []*kfw.Keyword
+		words = append(words, &kfw.Keyword{Word: "something", Kind: "test", Rate: 10})
+		words = append(words, &kfw.Keyword{Word: "test", Kind: "test", Rate: 10})
+		words = append(words, &kfw.Keyword{Word: "CMakeLists.txt", Kind: "cmake", Rate: 10})
+		words = append(words, &kfw.Keyword{Word: "HunterGate.cmake", Kind: "cmake", Rate: 10})
+
+		fx.AddWords(words)
+		fx.AddSymb("Makefile")
+
+		content := "test something CMakeLists.txt HunterGate makefile Makefile"
+		resp := fx.Filter(content)
+		fmt.Printf("response=%+v\n", resp)
+		log.Fatal("test...")
+	*/
+
+	// req.Scan()
+
+	// db.keywords.insert({word:'xxoo',kind:'porn',rate:100})
+	// db.symbols.insert({word:'*'})
 
 	// go actx.ana.run2()
 	// Mock()
@@ -184,94 +265,262 @@ func main() {
 	// fds := MockDataset(actx.fctx)
 	// fds := MockTree(actx.fctx)
 
-	fds := flow.New()
-	fds.Source(func(out chan string) {
+	f := flow.New()
 
-		// fileList := make([]*File, 0)
-		// var fileList []*File
+	fds := f.TextFile(
+		"./shared/data/json/readmes.json", 4,
+	).Filter(func(line string) bool {
+		return strings.Contains(line, "\"readme\":")
 
-		file, err := ioutil.ReadFile("files.json")
+	}).Map(func(line string, ch chan map[string]string) {
+
+		// var entry map[string]interface{}
+		var entry map[string]interface{}
+
+		dec := json.NewDecoder(bytes.NewBufferString(line))
+		dec.UseNumber()
+		err := dec.Decode(&entry)
 		if err != nil {
-			// log.Fatalf("File error: %v\n", err)
-			os.Exit(1)
+			log.Printf("error decoding entry: %v", err)
+			if e, ok := err.(*json.SyntaxError); ok {
+				log.Printf("syntax error at byte offset %d", e.Offset)
+			}
+			log.Printf("entry line: %q", line)
 			return
 		}
 
-		var arrResult []map[string]interface{}
-		err = json.Unmarshal(file, &arrResult)
-		if err != nil {
-			panic(err)
+		out := make(map[string]string, 2)
+		out["content"] = entry["readme"].(string)
+		out["hash"] = entry["hash"].(string)
+
+		ch <- out
+
+		/*
+			fds.Source(func(out chan string) {
+
+				// fileList := make([]*File, 0)
+				// var fileList []*File
+
+				file, err := ioutil.ReadFile("/Users/lucmichalski/local/golang/src/github.com/sniperkit/xtask/example/github-api/shared/data/json/readmes.json") // files.json")
+				// file, err := ioutil.ReadFile("readmes.json") // files.json")
+				if err != nil {
+					// log.Fatalf("File error: %v\n", err)
+					os.Exit(1)
+					return
+				}
+
+				var arrResult []map[string]interface{}
+				err = json.Unmarshal(file, &arrResult)
+				if err != nil {
+					panic(err)
+				}
+
+				// fmt.Printf("%#v", keys)
+				for _, entry := range arrResult {
+					if entry["readme"].(string) != "" {
+						// pp.Println("*** entry.path=", entry["path"].(string))
+						out <- entry["readme"].(string)
+					}
+				}
+
+				// close(out)
+
+			}, 4).Map(func(p string) string {
+				return p
+		*/
+	}).Map(func(in map[string]string) map[string]string {
+		return in
+
+	}).Filter(func(in map[string]string) bool {
+		return in["content"] != ""
+
+	}).Filter(func(in map[string]string) bool {
+		return !cuckflt.Lookup([]byte(in["hash"]))
+
+	}).Filter(func(in map[string]string) bool {
+
+		bfok := blmflt.TestAndAdd([]byte(in["hash"]))
+		// log.Println(blmflt.TestAndAdd([]byte(p)))
+		cfok := cuckflt.InsertUnique([]byte(in["hash"]))
+		// log.Println(cuckflt.InsertUnique([]byte(p)))
+		if bfok != !cfok {
+			log.Println(bfok, cfok) // The result of the filter is inconsistent
 		}
-
-		// fmt.Printf("%#v", keys)
-		for _, entry := range arrResult {
-			if entry["path"].(string) != "" {
-				// pp.Println("*** entry.path=", entry["path"].(string))
-				out <- entry["path"].(string)
-			}
+		if bfok == true || cfok == false {
+			return false // filtered
 		}
+		return true
 
-		// close(out)
-
-	}, 4).Map(func(p string) string {
-		return p
-
-	}).Filter(func(p string) bool {
-		return p != ""
-
-	}).Map(func(p string) (sr []*ScanResult) {
+	}).Map(func(in map[string]string) (sr []*ScanResult) {
 		// defer glowTrack(p, time.Now())
 		start := time.Now()
 		sr = make([]*ScanResult, 0)
-		results := wflt.Scan(p)
+
+		extensions := 0
+		renderer := blackfridaytext.TextRenderer()
+		output := string(blackfriday.Markdown([]byte(in["content"]), renderer, extensions))
+
+		urls := xurls.Relaxed().FindAllString(string(output), -1)
+		log.Warningln("urls=", urls)
+
+		results := wflt.Scan(output)
 
 		for _, result := range results {
 			sr = append(sr, &ScanResult{
-				tags:  string([]rune(p)[result.Start : result.End+1]),
-				group: result.Group,
+				Tags:  string([]rune(output)[result.Start : result.End+1]),
+				Group: result.Group,
 				start: result.Start,
 				end:   result.End + 1,
 			})
-			log.Println("file.path", p, "match=", string([]rune(p)[result.Start:result.End+1]), ", group=", result.Group, ", start=", result.Start, ", end=", result.End+1)
+			// log.Println("match=", string([]rune(output)[result.Start:result.End+1]), ", group=", result.Group, ", start=", result.Start, ", end=", result.End+1)
+		}
+
+		bag := tldr.New()
+		intoSentences := 1
+		result, _ := bag.Summarize(output, intoSentences)
+		pp.Println("Summarize=", result)
+
+		kws := Keywords(in["content"])
+		if len(kws) > 0 {
+			for _, kw := range kws {
+				sr = append(sr, &ScanResult{
+					// Tags:  kw,
+					Group: kw,
+				})
+			}
+			pp.Println("keywords=", kws)
 		}
 
 		t.AddTime(time.Since(start))
 		return
-	}) /*.Filter(func(sr []*ScanResult) bool {
-		return len(sr) > 0
-	})
-		var wg sync.WaitGroup
 
-		// Run tasks.
-		for i := 0; i < 5; i++ {
-			wg.Add(1)
-			go someTask(t, wg)
+		/*
+			).Map(func(line string, out chan flow.KeyValue) {
+
+				array := strings.Split(line, ",")
+				//marks, _ := strconv.Atoi(array[2])
+				key := strings.ToUpper(array[3]) + "-" + strings.ToUpper(array[4]) + "-" + strings.ToUpper(array[5])
+				out <- flow.KeyValue{Key: key, Value: line}
+			}).Filter(func(key string, value string) bool {
+				return strings.ToLower(key) == strings.ToLower(address)
+			}).Map(func(key string, value string) string {
+				fmt.Println(key, "available in the cities list as well")
+				return key
+		*/
+
+	}).Map(func(sr []*ScanResult, out chan flow.KeyValue) {
+		for _, s := range sr {
+			if len(s.Tags) > 1 {
+				//for _, t := range s.Tags {
+				out <- flow.KeyValue{s.Tags, 1}
+				//}
+			}
 		}
 
-		wg.Wait()
+	}).ReduceByKey(func(x int, y int) int {
+		return x + y
+
+	}).Map(func(tag string, count int) flow.KeyValue {
+		return flow.KeyValue{count, tag}
+
+	}).Sort(func(a, b int) bool {
+		return a < b
+
+	}).Map(func(count int, tag string) {
+		fmt.Printf("%d %s\n", count, tag)
+
+	})
+
+	/*
+		fds.Map(func(p Post) flow.KeyValue {
+			return flow.KeyValue{p.CreationDate.Format("2006-01"), 1}
+		}).ReduceByKey(func(x int, y int) int {
+			return x + y
+		}).Sort(nil).Map(func(month string, count int) {
+			fmt.Printf("%s %d\n", month, count)
+		})
+	*/
+
+	/*.Map(func(sr []*ScanResult, out chan flow.KeyValue) {
+		for _, s := range sr {
+			out <- flow.KeyValue{s.match, 1}
+		}
+
+	}).ReduceByKey(func(x int, y int) int {
+		return x + y
+
+	}).Map(func(tag string, count int) flow.KeyValue {
+		return flow.KeyValue{count, tag}
+
+	}).Sort(func(a, b int) bool {
+		return a < b
+
+	}).Map(func(count int, tag string) {
+		fmt.Printf("%d %s\n", count, tag)
+
+	})
 	*/
 
 	/*
-		.Map(func(file *File, out chan flow.KeyValue) {
-			log.Println("Map().line=", file)
-			for _, p := range file.path {
-				out <- flow.KeyValue{p, 1}
+		questions.Map(func(p Post, out chan flow.KeyValue) {
+			if len(p.Tags) > 1 {
+				for _, t := range p.Tags {
+					out <- flow.KeyValue{t, 1}
+				}
 			}
-
-		}).Map(func(f File) (r ScanResult) {
-
 		}).ReduceByKey(func(x int, y int) int {
 			return x + y
-
 		}).Map(func(tag string, count int) flow.KeyValue {
 			return flow.KeyValue{count, tag}
-
 		}).Sort(func(a, b int) bool {
 			return a < b
-
 		}).Map(func(count int, tag string) {
 			fmt.Printf("%d %s\n", count, tag)
+		})
 
+		questions.Map(func(p Post) flow.KeyValue {
+			return flow.KeyValue{p.CreationDate.Format("2006-01"), 1}
+		}).ReduceByKey(func(x int, y int) int {
+			return x + y
+		}).Sort(nil).Map(func(month string, count int) {
+			fmt.Printf("%s %d\n", month, count)
+		})
+	*/
+
+	/*
+		f1.Source(func(out chan WordSentence) {
+			bytes, err := ioutil.ReadFile(*fileName)
+			if err != nil {
+				println("Failed to read", *fileName)
+				return
+			}
+			lines := strings.Split(string(bytes), "\n")
+			for lineNumber, line := range lines {
+				for _, word := range strings.Split(line, " ") {
+					if word != "" {
+						out <- WordSentence{word, lineNumber}
+					}
+				}
+			}
+		}, 3).Map(func(ws WordSentence) (string, int) {
+			return ws.Word, ws.LineNumber
+		}).GroupByKey().Map(func(word string, lineNumbers []int) {
+			fmt.Printf("%s : %v\n", word, lineNumbers)
+		})
+
+		f2.TextFile(
+			"/etc/passwd", 2,
+		).Map(func(line string, ch chan string) {
+			for _, token := range strings.Split(line, " ") {
+				ch <- token
+			}
+		}).Map(func(key string) (string, int) {
+			return key, 1
+		}).ReduceByKey(func(x int, y int) int {
+			// println("reduce:", x+y)
+			return x + y
+		}).Map(func(key string, x int) {
+			println(key, ":", x)
 		})
 	*/
 
@@ -284,6 +533,135 @@ func main() {
 	fmt.Println(t.Calc().String())
 
 }
+
+type MapperFunc func(shardFilename string, out chan flow.KeyValue)
+type ReducerFunc func(key interface{}, values interface{}) string
+
+func createStreamingMapper(mapperExe string) MapperFunc {
+	return func(shardFilename string, out chan flow.KeyValue) {
+		cmd := exec.Command(mapperExe, shardFilename)
+		var outBuffer, errBuffer bytes.Buffer
+		cmd.Stdout = &outBuffer
+		cmd.Stderr = &errBuffer
+		if err := cmd.Run(); err != nil {
+			fmt.Printf(string(errBuffer.Bytes()))
+			panic(fmt.Sprintf("%v", err))
+		}
+		var mapperIface interface{}
+		errUnmarshal := json.Unmarshal(outBuffer.Bytes(), &mapperIface)
+		if errUnmarshal != nil {
+			panic(fmt.Sprintf("%v", errUnmarshal))
+		}
+		mapperItems := mapperIface.([]interface{})
+		for _, itemIface := range mapperItems {
+			item := itemIface.(map[string]interface{})
+			out <- flow.KeyValue{item["Key"], item["Value"]}
+		}
+	}
+}
+
+type ReducerOutput struct {
+	Key   interface{}
+	Value interface{}
+}
+
+func createStreamingReducer(reducerExe string) ReducerFunc {
+	b := make([]byte, 8)
+	if _, err := crand.Read(b); err != nil {
+		panic(fmt.Sprintf("Failed to generate reducer id: %v", err))
+	}
+	reducerId := fmt.Sprintf("%x%x", b[0:4], b[4:8])
+	fmt.Printf("reducer id=%v", reducerId)
+	return func(key interface{}, values interface{}) string {
+		inputBytes, err := json.Marshal(values)
+		if err != nil {
+			panic(fmt.Sprintf("%v", err))
+		}
+
+		cmd := exec.Command(reducerExe, fmt.Sprintf("%v", key), reducerId)
+		var outBuffer, errBuffer bytes.Buffer
+		cmd.Stdout = &outBuffer
+		cmd.Stderr = &errBuffer
+		stdin, err := cmd.StdinPipe()
+		if err != nil {
+			fmt.Printf(string(errBuffer.Bytes()))
+			panic(fmt.Sprintf("%v", err))
+		}
+
+		if err := cmd.Start(); err != nil {
+			fmt.Printf(string(errBuffer.Bytes()))
+			panic(fmt.Sprintf("%v", err))
+		}
+		io.Copy(stdin, bytes.NewBuffer(inputBytes))
+		stdin.Close()
+		if err := cmd.Wait(); err != nil {
+			fmt.Printf(string(errBuffer.Bytes()))
+			panic(fmt.Sprintf("%v", err))
+		}
+
+		if len(outBuffer.Bytes()) == 0 {
+			return ""
+		}
+		var reducerIface interface{}
+		if err := json.Unmarshal(outBuffer.Bytes(), &reducerIface); err != nil {
+			panic(fmt.Sprintf("%v", err))
+		}
+
+		reducerOutput := ReducerOutput{key, reducerIface}
+		reducerOutputBytes, err := json.MarshalIndent(reducerOutput, "", "  ")
+		if err != nil {
+			panic(fmt.Sprintf("%v", err))
+		}
+		return string(reducerOutputBytes)
+	}
+}
+
+/*
+func run() {
+	// build the map-reduce pipeline
+	flow.New().Source(readCSVInput, runtime.NumCPU()).Filter(func(r Record) bool {
+		// remove all the data without subreddit or it is empty
+		return r.Subreddit != ""
+	}).Map(func(r Record) (string, Record) {
+		// use delimiter to group by subreddit, date, and user
+		return r.Subreddit + Delimiter + r.Time.Format("2006-01-02") + Delimiter + r.User, r
+	}).ReduceByKey(func(x, y Record) Record {
+		// count the number of the post of each user within a subreddit and a day
+		return Record{
+			Subreddit:    x.Subreddit,
+			Time:         x.Time,
+			User:         x.User,
+			NumberOfPost: x.NumberOfPost + y.NumberOfPost,
+		}
+	}).Map(func(key string, r Record) (string, Record) {
+		// break the key from {subreddit}:::{date}:::{user}
+		// to {subreddit}:::{date} so that we can group by key with this pattern
+
+		arr := strings.Split(key, Delimiter)
+		if len(arr) != 3 {
+			log.Fatal("The key: " + key + " is not valid")
+		}
+
+		return arr[0] + Delimiter + arr[1], r
+	}).GroupByKey().Map(writeCSVOutput).Run()
+}
+*/
+
+/*
+func FilterInt(req filter.InputValues, _ filter.FilterValues) (bool, error) {
+	vs := req[testKeyInt]
+	if vs == nil {
+		return true, nil
+	}
+
+	switch reflect.TypeOf(vs).Kind() {
+	case reflect.Int, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Int8:
+		return false, nil
+	}
+
+	return true, nil
+}
+*/
 
 func NewAnaContext() *AnaContext {
 	this := &AnaContext{}
@@ -445,7 +823,7 @@ func (this *Analizer) run2() {
 		if line == nil {
 			return false
 		}
-		log.Println("Filter() file.path=", line.path)
+		// log.Println("Filter() file.path=", line.path)
 		if line.path == "" {
 			return true
 		} else {
@@ -612,10 +990,10 @@ func scanContent(input string) (res []*ScanResult) {
 	results := ac.Scan(input)
 	fmt.Println("Matches: ", input)
 	for _, result := range results {
-		fmt.Println("match=", string([]rune(input)[result.Start:result.End+1]), ", group=", result.Group, ", start=", result.Start, ", end=", result.End+1)
+		// fmt.Println("match=", string([]rune(input)[result.Start:result.End+1]), ", group=", result.Group, ", start=", result.Start, ", end=", result.End+1)
 		res = append(res, &ScanResult{
 			match: string([]rune(input)[result.Start : result.End+1]),
-			group: result.Group,
+			Group: result.Group,
 			start: result.Start,
 			end:   result.End + 1,
 		})
