@@ -14,11 +14,11 @@
 package infoschema
 
 import (
-	"github.com/chrislusf/gleam/sql/model"
-	"github.com/chrislusf/gleam/sql/mysql"
-	"github.com/chrislusf/gleam/sql/table"
-	_ "github.com/chrislusf/gleam/sql/table/tables"
-	"github.com/chrislusf/gleam/sql/terror"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/model"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/table"
+	_ "github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/table/tables"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/terror"
 )
 
 var (

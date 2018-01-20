@@ -3,13 +3,13 @@ package file
 import (
 	"fmt"
 
-	"github.com/chrislusf/gleam/filesystem"
-	"github.com/chrislusf/gleam/plugins/file/csv"
-	"github.com/chrislusf/gleam/plugins/file/orc"
-	"github.com/chrislusf/gleam/plugins/file/parquet"
-	"github.com/chrislusf/gleam/plugins/file/tsv"
-	"github.com/chrislusf/gleam/plugins/file/txt"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/filesystem"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file/csv"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file/orc"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file/parquet"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file/tsv"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file/txt"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 type FileReader interface {

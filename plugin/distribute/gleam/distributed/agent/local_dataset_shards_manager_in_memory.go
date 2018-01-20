@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 type trackedChannel struct {

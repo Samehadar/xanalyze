@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/chrislusf/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 )
 
 // Serve starts processing stdin and writes output to stdout

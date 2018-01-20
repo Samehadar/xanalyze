@@ -19,12 +19,12 @@ import (
 	"strconv"
 	"unicode"
 
-	"github.com/chrislusf/gleam/sql/ast"
-	"github.com/chrislusf/gleam/sql/mysql"
-	"github.com/chrislusf/gleam/sql/terror"
-	"github.com/chrislusf/gleam/sql/util/hack"
-	"github.com/chrislusf/gleam/sql/util/types"
 	"github.com/juju/errors"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/ast"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/terror"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/hack"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/types"
 )
 
 // Error instances.

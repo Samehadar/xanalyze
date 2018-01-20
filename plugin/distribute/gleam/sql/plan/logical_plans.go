@@ -14,11 +14,11 @@
 package plan
 
 import (
-	"github.com/chrislusf/gleam/sql/ast"
-	"github.com/chrislusf/gleam/sql/expression"
-	"github.com/chrislusf/gleam/sql/model"
-	"github.com/chrislusf/gleam/sql/util/types"
 	"github.com/juju/errors"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/ast"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/expression"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/model"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/types"
 )
 
 // JoinType contains CrossJoin, InnerJoin, LeftOuterJoin, RightOuterJoin, FullOuterJoin, SemiJoin.

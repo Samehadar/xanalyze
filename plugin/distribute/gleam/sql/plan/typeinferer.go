@@ -18,12 +18,12 @@ import (
 
 	"log"
 
-	"github.com/chrislusf/gleam/sql/ast"
-	"github.com/chrislusf/gleam/sql/mysql"
-	"github.com/chrislusf/gleam/sql/parser/opcode"
-	"github.com/chrislusf/gleam/sql/sessionctx/variable"
-	"github.com/chrislusf/gleam/sql/util/charset"
-	"github.com/chrislusf/gleam/sql/util/types"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/ast"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/parser/opcode"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/sessionctx/variable"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/charset"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/types"
 	"github.com/juju/errors"
 )
 

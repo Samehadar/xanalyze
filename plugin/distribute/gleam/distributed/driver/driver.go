@@ -8,12 +8,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/chrislusf/gleam/distributed/driver/scheduler"
-	"github.com/chrislusf/gleam/distributed/plan"
-	"github.com/chrislusf/gleam/distributed/resource"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/util/on_interrupt"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/driver/scheduler"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/plan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/resource"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util/on_interrupt"
 	"google.golang.org/grpc"
 )
 

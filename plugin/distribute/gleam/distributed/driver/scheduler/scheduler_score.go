@@ -1,9 +1,9 @@
 package scheduler
 
 import (
-	"github.com/chrislusf/gleam/distributed/driver/scheduler/market"
-	"github.com/chrislusf/gleam/distributed/plan"
-	"github.com/chrislusf/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/driver/scheduler/market"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/plan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 )
 
 func (s *Scheduler) Score(r market.Requirement, bid float64, obj market.Object) float64 {

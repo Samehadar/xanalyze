@@ -6,9 +6,9 @@ import (
 	"os/user"
 	"time"
 
-	"github.com/chrislusf/gleam/distributed/plan"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/plan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 )
 
 func (fcd *FlowDriver) GetTaskGroupStatus(taskGroup *plan.TaskGroup) *pb.FlowExecutionStatus_TaskGroup {

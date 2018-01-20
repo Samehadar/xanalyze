@@ -21,10 +21,10 @@ import (
 	"time"
 
 	"github.com/juju/errors"
-	"github.com/chrislusf/gleam/sql/mysql"
-	"github.com/chrislusf/gleam/sql/sessionctx/variable"
-	"github.com/chrislusf/gleam/sql/util/charset"
-	"github.com/chrislusf/gleam/sql/util/hack"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/sessionctx/variable"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/charset"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/hack"
 )
 
 // Kind constants.

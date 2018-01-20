@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/chrislusf/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 )
 
 func ListFiles(dir string, pattern string) (fileNames []string) {

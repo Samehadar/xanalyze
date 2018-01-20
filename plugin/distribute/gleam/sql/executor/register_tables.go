@@ -1,8 +1,8 @@
 package executor
 
 import (
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/sql/model"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/model"
 )
 
 type TableColumn struct {

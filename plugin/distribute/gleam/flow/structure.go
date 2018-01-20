@@ -5,10 +5,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/chrislusf/gleam/instruction"
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/script"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/instruction"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/script"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 type NetworkType int

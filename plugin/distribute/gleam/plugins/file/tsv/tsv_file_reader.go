@@ -5,7 +5,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 type TsvFileReader struct {
@@ -24,7 +24,7 @@ func (r *TsvFileReader) ReadHeader() (fieldNames []string, err error) {
 func (r *TsvFileReader) Read() (row *util.Row, err error) {
 	var values []string
 	values, err = r.readOneLine()
-        if err != nil {
+	if err != nil {
 		return nil, err
 	}
 	var data []interface{}

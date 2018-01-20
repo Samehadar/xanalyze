@@ -16,16 +16,16 @@ package plan
 import (
 	"fmt"
 
-	"github.com/chrislusf/gleam/sql/ast"
-	"github.com/chrislusf/gleam/sql/context"
-	"github.com/chrislusf/gleam/sql/expression"
-	"github.com/chrislusf/gleam/sql/infoschema"
-	"github.com/chrislusf/gleam/sql/model"
-	"github.com/chrislusf/gleam/sql/mysql"
-	"github.com/chrislusf/gleam/sql/parser/opcode"
-	"github.com/chrislusf/gleam/sql/table"
-	"github.com/chrislusf/gleam/sql/terror"
-	"github.com/chrislusf/gleam/sql/util/types"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/ast"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/context"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/expression"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/infoschema"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/model"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/parser/opcode"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/table"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/terror"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/types"
 	"github.com/juju/errors"
 )
 

@@ -16,7 +16,7 @@ package context
 import (
 	"fmt"
 
-	"github.com/chrislusf/gleam/sql/sessionctx/variable"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/sessionctx/variable"
 )
 
 // Context is an interface for transaction and executive args environment.

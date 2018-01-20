@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/sql/context"
-	"github.com/chrislusf/gleam/sql/infoschema"
-	"github.com/chrislusf/gleam/sql/plan"
 	"github.com/juju/errors"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/context"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/infoschema"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/plan"
 )
 
 // statement implements the ast.Statement interface, it builds a plan.Plan to an ast.Statement.

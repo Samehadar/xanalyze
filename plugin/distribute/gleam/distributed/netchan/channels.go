@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/util"
 	"github.com/golang/protobuf/proto"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 func DialReadChannel(ctx context.Context, wg *sync.WaitGroup, readerName string, address string, channelName string, onDisk bool, outChan io.WriteCloser) error {

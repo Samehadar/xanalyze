@@ -14,8 +14,8 @@
 package plan
 
 import (
-	"github.com/chrislusf/gleam/sql/expression"
-	"github.com/chrislusf/gleam/sql/mysql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/expression"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
 )
 
 func (p *Aggregation) buildKeyInfo() {

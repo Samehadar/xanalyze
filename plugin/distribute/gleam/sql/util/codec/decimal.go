@@ -16,8 +16,8 @@ package codec
 import (
 	"log"
 
-	"github.com/chrislusf/gleam/sql/util/types"
 	"github.com/juju/errors"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/types"
 )
 
 // EncodeDecimal encodes a decimal d into a byte slice which can be sorted lexicographically later.

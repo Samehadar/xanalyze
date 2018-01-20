@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 func (runner *gleamRunner) processMapper(ctx context.Context, f Mapper) (err error) {

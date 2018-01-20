@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 func (runner *gleamRunner) processReducer(ctx context.Context, f Reducer, keyPositions []int) (err error) {

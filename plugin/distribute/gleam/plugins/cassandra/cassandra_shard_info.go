@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/chrislusf/gleam/gio"
 	"github.com/gocql/gocql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
 )
 
 type CassandraShardInfo struct {

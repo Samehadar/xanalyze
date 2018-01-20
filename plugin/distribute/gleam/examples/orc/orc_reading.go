@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 
-	"github.com/chrislusf/gleam/distributed"
-	. "github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/plugins/file"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed"
+	. "github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file"
 )
 
 var (

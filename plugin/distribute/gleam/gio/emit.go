@@ -3,7 +3,7 @@ package gio
 import (
 	"os"
 
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 // Emit encode and write a row of data to os.Stdout

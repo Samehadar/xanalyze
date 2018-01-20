@@ -6,7 +6,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 func (as *AgentServer) handleInMemoryReadConnection(conn net.Conn, readerName, channelName string) {

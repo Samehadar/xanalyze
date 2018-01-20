@@ -5,12 +5,12 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/chrislusf/gleam/distributed"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/gio/mapper"
-	"github.com/chrislusf/gleam/plugins/file"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio/mapper"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 var (

@@ -3,7 +3,7 @@ package master
 import (
 	"time"
 
-	"github.com/chrislusf/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 )
 
 func (tp *Topology) UpdateAgentInformation(ai *pb.Heartbeat) {

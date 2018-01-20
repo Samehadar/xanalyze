@@ -16,9 +16,9 @@ package plan
 import (
 	"sort"
 
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/ast"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/expression"
 	"log"
-	"github.com/chrislusf/gleam/sql/ast"
-	"github.com/chrislusf/gleam/sql/expression"
 )
 
 // tryToGetJoinGroup tries to fetch a whole join group, which all joins is cartesian join.

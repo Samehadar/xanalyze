@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 func init() {

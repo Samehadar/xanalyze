@@ -1,7 +1,7 @@
 package flow
 
 import (
-	"github.com/chrislusf/gleam/instruction"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/instruction"
 )
 
 // CoGroup joins two datasets by the key,

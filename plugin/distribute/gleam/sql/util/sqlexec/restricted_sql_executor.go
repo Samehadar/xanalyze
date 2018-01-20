@@ -14,8 +14,8 @@
 package sqlexec
 
 import (
-	"github.com/chrislusf/gleam/sql/ast"
-	"github.com/chrislusf/gleam/sql/context"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/ast"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/context"
 )
 
 // RestrictedSQLExecutor is an interface provides executing restricted sql statement.

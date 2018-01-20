@@ -5,12 +5,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/sql"
-	"github.com/chrislusf/gleam/sql/executor"
-	"github.com/chrislusf/gleam/sql/mysql"
-	"github.com/chrislusf/gleam/sql/plan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/executor"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/plan"
 )
 
 func TestLimitOffset(t *testing.T) {

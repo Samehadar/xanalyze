@@ -8,9 +8,9 @@ import (
 	"os/exec"
 	"sync"
 
-	"github.com/chrislusf/gleam/pb"
 	"github.com/golang/protobuf/proto"
 	"github.com/kardianos/osext"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 )
 
 func (as *AgentServer) executeCommand(

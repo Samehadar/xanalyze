@@ -3,7 +3,7 @@ package csv
 import (
 	"io"
 
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 type CsvFileReader struct {

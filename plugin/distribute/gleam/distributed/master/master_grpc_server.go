@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/chrislusf/gleam/pb"
 	"github.com/golang/protobuf/proto"
 	"github.com/hashicorp/golang-lru"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 	"golang.org/x/net/context"
 )
 

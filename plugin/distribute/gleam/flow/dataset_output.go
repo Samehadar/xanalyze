@@ -8,9 +8,9 @@ import (
 	"os"
 	"reflect"
 
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 // Output concurrently collects outputs from previous step to the driver.

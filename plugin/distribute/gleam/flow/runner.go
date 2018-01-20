@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/util"
-	"github.com/chrislusf/gleam/util/on_interrupt"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util/on_interrupt"
 )
 
 type FlowRunner interface {

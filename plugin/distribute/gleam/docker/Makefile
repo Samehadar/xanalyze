@@ -1,5 +1,5 @@
 BINARY = gleam
-SOURCE_DIR = github.com/chrislusf/gleam/distributed/gleam
+SOURCE_DIR = github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/gleam
 
 all: gleam
 

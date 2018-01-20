@@ -6,11 +6,11 @@ import (
 	"log"
 	"sync"
 
-	"github.com/chrislusf/gleam/distributed/netchan"
-	"github.com/chrislusf/gleam/distributed/plan"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/netchan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/plan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 func (s *Scheduler) remoteExecuteOnLocation(ctx context.Context,

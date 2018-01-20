@@ -18,11 +18,11 @@ import (
 
 	"log"
 
-	"github.com/chrislusf/gleam/sql/context"
-	"github.com/chrislusf/gleam/sql/expression"
-	"github.com/chrislusf/gleam/sql/model"
-	"github.com/chrislusf/gleam/sql/mysql"
 	"github.com/juju/errors"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/context"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/expression"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/model"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
 )
 
 const (

@@ -14,9 +14,9 @@
 package plan
 
 import (
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/ast"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/expression"
 	"log"
-	"github.com/chrislusf/gleam/sql/ast"
-	"github.com/chrislusf/gleam/sql/expression"
 )
 
 func getUsedList(usedCols []*expression.Column, schema expression.Schema) []bool {

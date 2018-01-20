@@ -1,7 +1,7 @@
 package flow
 
 import (
-	"github.com/chrislusf/gleam/instruction"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/instruction"
 )
 
 // HashJoin joins two datasets by putting the smaller dataset in memory on all

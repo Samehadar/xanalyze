@@ -14,14 +14,14 @@ import (
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 
-	a "github.com/chrislusf/gleam/distributed/agent"
-	exe "github.com/chrislusf/gleam/distributed/executor"
-	m "github.com/chrislusf/gleam/distributed/master"
-	"github.com/chrislusf/gleam/distributed/netchan"
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/util"
-	"github.com/chrislusf/gleam/util/on_interrupt"
 	"github.com/golang/protobuf/proto"
+	a "github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/agent"
+	exe "github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/executor"
+	m "github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/master"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/netchan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util/on_interrupt"
 )
 
 var (

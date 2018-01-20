@@ -17,10 +17,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/chrislusf/gleam/sql/mysql"
-	"github.com/chrislusf/gleam/sql/sessionctx/variable"
-	"github.com/chrislusf/gleam/sql/util/types"
 	"github.com/juju/errors"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/mysql"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/sessionctx/variable"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/types"
 )
 
 // GetSessionSystemVar gets a system variable.

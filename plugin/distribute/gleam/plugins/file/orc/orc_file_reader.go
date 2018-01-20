@@ -3,8 +3,8 @@ package orc
 import (
 	"io"
 
-	"github.com/chrislusf/gleam/util"
 	"github.com/scritchley/orc"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 type OrcFileReader struct {

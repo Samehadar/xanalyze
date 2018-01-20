@@ -1,7 +1,7 @@
 package resolver
 
 import (
-	"github.com/chrislusf/gleam/sql/terror"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/terror"
 )
 
 // Optimizer error codes.

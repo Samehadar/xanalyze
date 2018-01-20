@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/script"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/script"
 )
 
 // ReduceByKey runs the reducer registered to the reducerId,

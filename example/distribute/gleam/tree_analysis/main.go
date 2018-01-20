@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/chrislusf/gleam/distributed"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/plugins/file"
 	_ "github.com/sniperkit/xanalyze/model"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file"
 
 	jsoniter "github.com/sniperkit/xutil/plugin/format/json"
 )

@@ -14,8 +14,8 @@ package plan
 
 import (
 	"github.com/juju/errors"
-	"github.com/chrislusf/gleam/sql/context"
-	"github.com/chrislusf/gleam/sql/expression"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/context"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/expression"
 )
 
 func addSelection(p Plan, child LogicalPlan, conditions []expression.Expression, allocator *idAllocator) error {

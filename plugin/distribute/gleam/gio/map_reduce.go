@@ -6,7 +6,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/chrislusf/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 )
 
 type MapperId string

@@ -8,11 +8,11 @@ import (
 	"runtime/pprof"
 	"time"
 
-	"github.com/chrislusf/gleam/distributed"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/util"
 	glow "github.com/chrislusf/glow/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 	"sync"
 	"sync/atomic"
 )

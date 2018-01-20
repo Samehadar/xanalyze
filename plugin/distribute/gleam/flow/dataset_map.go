@@ -4,9 +4,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/instruction"
-	"github.com/chrislusf/gleam/script"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/instruction"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/script"
 )
 
 // Mapper runs the mapper registered to the mapperId.

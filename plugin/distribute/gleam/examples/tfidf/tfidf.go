@@ -8,12 +8,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/chrislusf/gleam/distributed"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/gio/mapper"
-	"github.com/chrislusf/gleam/gio/reducer"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio/mapper"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio/reducer"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 var (

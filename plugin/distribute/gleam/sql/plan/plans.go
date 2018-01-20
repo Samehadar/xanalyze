@@ -17,11 +17,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/chrislusf/gleam/sql/ast"
-	"github.com/chrislusf/gleam/sql/expression"
-	"github.com/chrislusf/gleam/sql/sessionctx/variable"
-	"github.com/chrislusf/gleam/sql/table"
-	"github.com/chrislusf/gleam/sql/util/types"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/ast"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/expression"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/sessionctx/variable"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/table"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/util/types"
 )
 
 // TableRange represents a range of row handle.

@@ -14,8 +14,8 @@
 package expression
 
 import (
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/context"
 	"log"
-	"github.com/chrislusf/gleam/sql/context"
 )
 
 // FoldConstant does constant folding optimization on an expression.

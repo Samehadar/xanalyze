@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/chrislusf/gleam/distributed/master/ui"
-	"github.com/chrislusf/gleam/pb"
 	"github.com/gorilla/mux"
 	"github.com/hashicorp/golang-lru"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/master/ui"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 )
 
 func (ms *MasterServer) uiStatusHandler(w http.ResponseWriter, r *http.Request) {

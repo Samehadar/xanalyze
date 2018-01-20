@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/chrislusf/gleam/distributed/plan"
-	"github.com/chrislusf/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/plan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
 )
 
 type DistributedPlanner struct {

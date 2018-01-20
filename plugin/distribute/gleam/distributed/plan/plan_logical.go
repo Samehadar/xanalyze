@@ -3,7 +3,7 @@ package plan
 import (
 	"log"
 
-	"github.com/chrislusf/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
 )
 
 func isMergeableDataset(ds *flow.Dataset, taskCount int) bool {

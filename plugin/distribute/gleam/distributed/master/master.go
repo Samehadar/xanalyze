@@ -7,8 +7,8 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/chrislusf/gleam/pb"
 	router "github.com/gorilla/mux"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
 	"github.com/soheilhy/cmux"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

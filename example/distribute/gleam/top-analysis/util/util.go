@@ -2,7 +2,7 @@ package util
 
 import (
 	"fmt"
-	"github.com/chrislusf/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
 	"github.com/snluu/uuid"
 	"github.com/zhangweilun/session/model"
 	"math/rand"

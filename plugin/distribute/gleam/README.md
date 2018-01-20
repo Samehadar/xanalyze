@@ -1,8 +1,8 @@
 # Gleam
 [![Build Status](https://travis-ci.org/chrislusf/gleam.svg?branch=master)](https://travis-ci.org/chrislusf/gleam)
-[![GoDoc](https://godoc.org/github.com/chrislusf/gleam/flow?status.svg)](https://godoc.org/github.com/chrislusf/gleam/flow)
-[![Wiki](https://img.shields.io/badge/docs-wiki-blue.svg)](https://github.com/chrislusf/gleam/wiki)
-[![Go Report Card](https://goreportcard.com/badge/github.com/chrislusf/gleam)](https://goreportcard.com/report/github.com/chrislusf/gleam)
+[![GoDoc](https://godoc.org/github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow?status.svg)](https://godoc.org/github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow)
+[![Wiki](https://img.shields.io/badge/docs-wiki-blue.svg)](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/wiki)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sniperkit/xanalyze/plugin/distribute/gleam)](https://goreportcard.com/report/github.com/sniperkit/xanalyze/plugin/distribute/gleam)
 [![codecov](https://codecov.io/gh/chrislusf/gleam/branch/master/graph/badge.svg)](https://codecov.io/gh/chrislusf/gleam)
 
 Gleam is a high performance and efficient distributed execution system, and also
@@ -70,9 +70,9 @@ The distributed mode has several names to explain: Master, Agent, Executor, Driv
 By leaving it in memory, the flow can have back pressure, and can support stream computation naturally.
 
 # Documentation
-* [Gleam Wiki](https://github.com/chrislusf/gleam/wiki)
-* [Installation](https://github.com/chrislusf/gleam/wiki/Installation)
-* [Gleam Flow API GoDoc](https://godoc.org/github.com/chrislusf/gleam/flow)
+* [Gleam Wiki](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/wiki)
+* [Installation](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/wiki/Installation)
+* [Gleam Flow API GoDoc](https://godoc.org/github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow)
 * [gleam-dev on Slack](https://gleam-dev.slack.com)
 
 # Standalone Example
@@ -91,10 +91,10 @@ import (
 	"flag"
 	"strings"
 
-	"github.com/chrislusf/gleam/distributed"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/plugins/file"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file"
 )
 
 var (
@@ -152,7 +152,7 @@ Now you can execute the binary directly or with "-distributed" option to run in 
 The distributed mode would need a simple setup described later.
 
 A bit more blown up example is here, using the predefined mapper or reducer:
-https://github.com/chrislusf/gleam/blob/master/examples/word_count_in_go/word_count_in_go.go
+https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/blob/master/examples/word_count_in_go/word_count_in_go.go
 
 
 #### Word Count by Unix Pipe Tools
@@ -168,11 +168,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/gio/mapper"
-	"github.com/chrislusf/gleam/plugins/file"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio/mapper"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 func main() {
@@ -208,9 +208,9 @@ And the output format should be "a1, a4, b3".
 package main
 
 import (
-	. "github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/plugins/file"
+	. "github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/plugins/file"
 )
 
 func main() {
@@ -232,7 +232,7 @@ func main() {
 Start a gleam master and several gleam agents
 ```go
 // start "gleam master" on a server
-> go get github.com/chrislusf/gleam/distributed/gleam
+> go get github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/gleam
 > gleam master --address=":45326"
 
 // start up "gleam agent" on some different servers or ports
@@ -257,7 +257,7 @@ After the flow is defined, the Run() function can be executed in local mode or d
   f.Run()
 
   // 2. distributed mode
-  import "github.com/chrislusf/gleam/distributed"
+  import "github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed"
   f.Run(distributed.Option())
   f.Run(distributed.Option().SetMaster("master_ip:45326"))
 
@@ -265,21 +265,21 @@ After the flow is defined, the Run() function can be executed in local mode or d
 
 # Important Features
 
-* Fault tolerant [OnDisk()](https://godoc.org/github.com/chrislusf/gleam/flow#Dataset.OnDisk).
+* Fault tolerant [OnDisk()](https://godoc.org/github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow#Dataset.OnDisk).
 * Read data from Local, HDFS, or S3.
 * Data Sources
-  * [Cassandra](https://github.com/chrislusf/gleam/tree/master/plugins/cassandra), with [example](https://github.com/chrislusf/gleam/tree/master/examples/cassandra_reader)
-  * [Kafka](https://github.com/chrislusf/gleam/tree/master/plugins/kafka) [example](https://github.com/chrislusf/gleam/tree/master/examples/kafka_reader)
-  * [Parquet files](https://github.com/chrislusf/gleam/tree/master/plugins/file/parquet) [example](https://github.com/chrislusf/gleam/tree/master/examples/parquet)
-  * [ORC files](https://github.com/chrislusf/gleam/tree/master/plugins/file/orc) [example](https://github.com/chrislusf/gleam/tree/master/examples/orc)
-  * [CSV files](https://github.com/chrislusf/gleam/tree/master/plugins/file/csv) [example](https://github.com/chrislusf/gleam/tree/master/examples/csv)
-  * [TSV files](https://github.com/chrislusf/gleam/tree/master/plugins/file/tsv) 
-  * [TXT files](https://github.com/chrislusf/gleam/tree/master/plugins/file/txt) 
+  * [Cassandra](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/plugins/cassandra), with [example](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/examples/cassandra_reader)
+  * [Kafka](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/plugins/kafka) [example](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/examples/kafka_reader)
+  * [Parquet files](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/plugins/file/parquet) [example](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/examples/parquet)
+  * [ORC files](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/plugins/file/orc) [example](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/examples/orc)
+  * [CSV files](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/plugins/file/csv) [example](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/examples/csv)
+  * [TSV files](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/plugins/file/tsv) 
+  * [TXT files](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/tree/master/plugins/file/txt) 
   * Raw Socket [example]()
 
 # Status
 Gleam is just beginning. Here are a few todo items. Welcome any help!
-* [Add new plugin to read external data](https://github.com/chrislusf/gleam/wiki/Add-New-Source).
+* [Add new plugin to read external data](https://github.com/sniperkit/xanalyze/plugin/distribute/gleam/wiki/Add-New-Source).
 * Add windowing functions similar to Apache Beam/Flink. (in progress)
 * Add schema support for each dataset.
 * Support using SQL as a flow step, similar to LINQ.

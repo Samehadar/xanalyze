@@ -1,7 +1,7 @@
 package flow
 
 import (
-	"github.com/chrislusf/gleam/instruction"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/instruction"
 )
 
 func (d *Dataset) RoundRobin(name string, n int) *Dataset {

@@ -14,7 +14,7 @@
 package ast
 
 import (
-	"github.com/chrislusf/gleam/sql/model"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/sql/model"
 )
 
 var (

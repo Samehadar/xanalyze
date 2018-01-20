@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/chrislusf/gleam/gio"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 func New(name string) (fc *Flow) {

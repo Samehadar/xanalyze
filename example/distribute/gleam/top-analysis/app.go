@@ -5,9 +5,9 @@ import (
 	"os"
 	_ "strings"
 
-	"github.com/chrislusf/gleam/distributed"
-	"github.com/chrislusf/gleam/flow"
-	"github.com/chrislusf/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/flow"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
 	_ "github.com/zhangweilun/session/model"
 	"github.com/zhangweilun/session/util"
 )

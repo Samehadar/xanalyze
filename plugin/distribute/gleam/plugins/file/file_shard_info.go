@@ -7,8 +7,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/chrislusf/gleam/filesystem"
-	"github.com/chrislusf/gleam/gio"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/filesystem"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/gio"
 )
 
 type FileShardInfo struct {

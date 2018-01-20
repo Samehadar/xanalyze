@@ -11,10 +11,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/chrislusf/gleam/distributed/netchan"
-	"github.com/chrislusf/gleam/instruction"
-	"github.com/chrislusf/gleam/pb"
-	"github.com/chrislusf/gleam/util"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/distributed/netchan"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/instruction"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/pb"
+	"github.com/sniperkit/xanalyze/plugin/distribute/gleam/util"
 )
 
 type ExecutorOption struct {
