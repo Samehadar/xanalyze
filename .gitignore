@@ -31,4 +31,17 @@ vendor
 vendor/
 vendor/**
 
+config.yml
+config.yaml
+auth.yaml
+auth.yml
+credentials.yaml
+credentials.yml
+
 *.log
+*.csv
+*.tar.gz
+*.zip
+*.bz2
+*.gz*
+*.tar*
