@@ -1,0 +1,29 @@
+language: go
+
+go:
+  - 1.9
+  - tip
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+before_install:
+  - go get github.com/golang/dep/...
+  - go get github.com/golang/lint/golint
+  - go get github.com/mattn/goveralls
+
+install:
+  - $GOPATH/bin/dep ensure
+
+script:
+  - make test
+  - make lint
+  - make docker-build
+
+after_script:
+  - goveralls -repotoken ${COVERALLS_TOKEN}
